@@ -2,9 +2,6 @@ import React     from "react"
 import PropTypes from "prop-types"
 import Todos     from "./Todos"
 import NewItem   from "./NewItem"
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 
 class Body extends React.Component {
   constructor(props) {
