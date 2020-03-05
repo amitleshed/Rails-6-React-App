@@ -5,10 +5,14 @@ import Todo      from "./Todo"
 class Todos extends React.Component {
   
   render () {
-    var todos = this.props.todos.map((todo) => {
+    var sortedTodos = this.props.todos.sort((x,y) => {
+      return (x.pin === y.pin)? 0 : x.pin? -1 : 1
+    })
+    
+    var todos = sortedTodos.map((todo) => {
       return(
         <li key={todo.id} className="todo">
-          <Todo todo={todo} destroyTodo={this.props.destroyTodo} updateTodo={this.props.updateTodo}/>
+          <Todo todo={todo} destroyTodo={this.props.destroyTodo} updateTodo={this.props.updateTodo} pinTodo={this.props.pinTodo} />
         </li>
       )
     })

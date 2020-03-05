@@ -16,6 +16,21 @@ class Body extends React.Component {
     this.createTodo       = this.createTodo.bind(this)
     this.updateTodo       = this.updateTodo.bind(this)
     this.updateTodos      = this.updateTodos.bind(this)
+    this.pinTodo          = this.pinTodo.bind(this)
+  }
+  
+  pinTodo(todo) {
+    fetch(`/api/v1/todos/${todo.id}/pin`, {
+      method: 'PUT',
+      body: JSON.stringify({todo: todo}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((response) => {
+      todo.pin = !todo.pin
+      this.updateTodos(todo)
+    })
   }
   
   updateTodo(todo) {
@@ -91,7 +106,7 @@ class Body extends React.Component {
     return (
       <div className="container">
         <NewItem handleFormSubmit={this.handleFormSubmit}/>
-        <Todos todos={this.state.todos} destroyTodo={this.destroyTodo} updateTodo = {this.updateTodo}/>
+        <Todos todos={this.state.todos} destroyTodo={this.destroyTodo} updateTodo={this.updateTodo} pinTodo={this.pinTodo}/>
       </div>
     );
   }
