@@ -5,7 +5,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 class Todo extends React.Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class Todo extends React.Component {
           <button onClick={() => this.editTodo()}>{ this.state.editable ? <CheckIcon /> : <EditOutlinedIcon /> }</button>
           <button onClick={() => this.props.destroyTodo(this.props.todo.id)}><DeleteOutlineOutlinedIcon /></button>
           <button onClick={() => this.props.pinTodo(this.props.todo)}>{ this.props.todo.pin ? <BookmarkIcon /> : <BookmarkBorderIcon /> }</button>
+          <button onClick={() => this.props.createCompleteTodo(this.props.todo)}><CheckCircleIcon /></button>
         </div>
       </React.Fragment>
     );

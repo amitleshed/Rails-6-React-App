@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_05_071736) do
+ActiveRecord::Schema.define(version: 2020_03_08_065536) do
+
+  create_table "completed_todos", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "todo_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["todo_id"], name: "index_completed_todos_on_todo_id"
+  end
 
   create_table "todos", force: :cascade do |t|
     t.string "title"
@@ -18,5 +27,8 @@ ActiveRecord::Schema.define(version: 2020_03_05_071736) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "pin"
+    t.boolean "completed"
   end
+
+  add_foreign_key "completed_todos", "todos"
 end

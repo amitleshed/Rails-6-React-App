@@ -1,6 +1,6 @@
 class Api::V1::TodosController < ApplicationController
   def index
-    render json: Todo.all
+    render json: Todo.where(completed: false).reverse
   end
   
   def create
@@ -22,7 +22,6 @@ class Api::V1::TodosController < ApplicationController
     @todo = Todo.find(params[:todo_id])
     @todo.pin = !@todo.pin
     @todo.save
-    puts "WORKS! #{@todo.inspect}"
     render json: @todo
   end
   
