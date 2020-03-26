@@ -6,6 +6,10 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom"
 
 class Todo extends React.Component {
   constructor(props) {
@@ -43,8 +47,14 @@ class Todo extends React.Component {
     
     return (
       <React.Fragment>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <Link 
+          key={this.props.todo.id}
+          to={{
+            pathname: `/todos/${this.props.todo.id}`
+          }}>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </Link>
         <div className="todo--actions">
           <button onClick={() => this.editTodo()}>{ this.state.editable ? <CheckIcon /> : <EditOutlinedIcon /> }</button>
           <button onClick={() => this.props.destroyTodo(this.props.todo.id)}><DeleteOutlineOutlinedIcon /></button>

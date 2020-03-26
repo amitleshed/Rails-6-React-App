@@ -1,7 +1,7 @@
 import React     from "react"
 import PropTypes from "prop-types"
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
+import Button    from '@material-ui/core/Button';
+import Input     from '@material-ui/core/Input';
 
 class NewItem extends React.Component {
   render() {

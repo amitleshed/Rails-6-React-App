@@ -7,6 +7,9 @@ class CompletedTodos extends React.Component {
   render () {
     
     var completedTodos = this.props.completedTodos.map((todo) => {
+      if (todo.title.toLowerCase().indexOf(this.props.searchText.toLowerCase()) === -1 && todo.description.toLowerCase().indexOf(this.props.searchText.toLowerCase()) === -1) {
+        return
+      }
       return(
         <li key={todo.id} className="todo todo--completed">
           <CompletedTodo todo={todo} destroyCompletedTodo={this.props.destroyCompletedTodo} />

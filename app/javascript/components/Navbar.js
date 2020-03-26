@@ -4,14 +4,20 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory,
+  useLocation,
+  useParams
 } from "react-router-dom"
+
 import About from "./About"
 import Body  from "./Body"
 import Home  from "./Home"
+import Clock from "./Clock"
 
 
 class Navbar extends React.Component { 
+  
   render () {
     return (
       <Router>
@@ -28,6 +34,7 @@ class Navbar extends React.Component {
                 <Link to="/about">About</Link>
               </li>
             </ul>
+            <Clock />
           </nav>
       
           <Switch>

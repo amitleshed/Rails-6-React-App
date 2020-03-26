@@ -3,13 +3,30 @@ import PropTypes      from "prop-types"
 import Todos          from "./Todos"
 import NewItem        from "./NewItem"
 import CompletedTodos from "./CompletedTodos"
+import Modal          from "./Modal"
+import Clock          from "./Clock"
+import SearchBar      from "./SearchBar"
+import AppPopper      from "./AppPopper"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+  useLocation,
+  useParams
+} from "react-router-dom"
+
+import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
 
 class Body extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: [],
-      completedTodos: []
+      completedTodos: [],
+      searchText: ''
     }
     
     this.createTodo           = this.createTodo.bind(this)
@@ -20,6 +37,8 @@ class Body extends React.Component {
     this.pinTodo              = this.pinTodo.bind(this)
     this.createCompleteTodo   = this.createCompleteTodo.bind(this)
     this.destroyCompletedTodo = this.destroyCompletedTodo.bind(this)
+    this.onSearch             = this.onSearch.bind(this)
+    this.todoTitleChange      = this.todoTitleChange.bind(this)
   }
   
   componentDidMount() {
@@ -30,6 +49,12 @@ class Body extends React.Component {
     fetch('/api/v1/completed_todos.json')
     .then((response) => { return response.json() })
     .then((data) => { this.setState({ completedTodos: data }) })
+  }
+  
+  onSearch(searchText) {
+    this.setState({
+      searchText: searchText
+    })
   }
   
   pinTodo(todo) {
@@ -134,14 +159,31 @@ class Body extends React.Component {
     })
   }
   
-  loadCompletedTodos() {
-    
+  todoTitleChange(todo, input) {
+    todo.title = input
+    this.updateTodo(todo)
   }
   
-  render () { 
+  render () {
     return (
       <React.Fragment>
-      <NewItem createTodo={this.createTodo}/>
+      <div>
+        <Switch>
+          <Route path="/todos/:id" children={<Modal todos={this.state.todos} todoTitleChange={this.todoTitleChange} />} />
+        </Switch>
+  
+        {<Body /> && <Route path="/todos/:id" />}
+      </div>
+      
+      <div className="main-action-buttons">
+        <AppPopper label="Create a todo" icon={<AddIcon/>} placement="bottom-start">
+          <NewItem createTodo={this.createTodo}/>
+        </AppPopper>
+        <AppPopper label="Search a todo" icon={<SearchIcon/>} placement="bottom-end">
+          <SearchBar searchText ={this.state.searchText}
+                     onSearch   ={this.onSearch} />
+        </AppPopper>
+      </div>
       <div className="container">
         <Todos todos             ={this.state.todos} 
                completedTodos    ={this.state.completedTodos}
@@ -149,9 +191,11 @@ class Body extends React.Component {
                updateTodo        ={this.updateTodo} 
                pinTodo           ={this.pinTodo} 
                createCompleteTodo={this.createCompleteTodo}
+               searchText        ={this.state.searchText}
         />
-        <loadCompletedTodos />
-        <CompletedTodos completedTodos={this.state.completedTodos} destroyCompletedTodo={this.destroyCompletedTodo}/> 
+        <CompletedTodos completedTodos      ={this.state.completedTodos}
+                        destroyCompletedTodo={this.destroyCompletedTodo}
+                        searchText          ={this.state.searchText}/> 
       </div>
       </React.Fragment>
     );
