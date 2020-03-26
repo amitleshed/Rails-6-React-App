@@ -18,9 +18,11 @@ class CompleteTodo extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <h3>{this.props.todo.title}</h3>
-        <p>{this.props.todo.description}</p>
-        <div className="todo--actions">
+        <div className="todo__info">
+          <h3>{this.props.todo.title}</h3>
+          <p>{this.props.todo.description}</p>
+        </div>
+        <div className="todo__actions">
           <button onClick={() => this.props.destroyCompletedTodo(this.props.todo.id)}><DeleteOutlineOutlinedIcon /></button>
         </div>
       </React.Fragment>

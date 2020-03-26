@@ -11,7 +11,7 @@ class CompletedTodos extends React.Component {
         return
       }
       return(
-        <li key={todo.id} className="todo todo--completed">
+        <li key={todo.id} id={"completed_todo_" + todo.id} className="todo todo--completed">
           <CompletedTodo todo={todo} destroyCompletedTodo={this.props.destroyCompletedTodo} />
         </li>
       )

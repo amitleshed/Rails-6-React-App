@@ -114,8 +114,22 @@ form {
       }
     }
     
-    &--actions {
-      padding: 17px 15px 15px 15px;
+    &--bookmarked {
+      &::before {
+        content: '';
+        position: absolute;
+        left: -7px;
+        top: -3px;
+        width: 2em;
+        height: 2em;
+        background-image: url("bookmark.png");
+        background-size: 100%;
+        transform: rotate(-12deg);
+      }
+    }
+    
+    &__actions {
+      padding: 17px 15px 9px 15px;
       position: absolute;
       bottom: 0;
       left: 0; right: 0;

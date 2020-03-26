@@ -15,7 +15,7 @@ class Todos extends React.Component {
       }
       
       return(
-        <li key={todo.id} className="todo">
+        <li key={todo.id} id={"todo_" + todo.id} className={todo.pin ? "todo todo--bookmarked" : "todo"}>
           <Todo todo={todo} 
                 destroyTodo={this.props.destroyTodo} 
                 updateTodo={this.props.updateTodo} 
