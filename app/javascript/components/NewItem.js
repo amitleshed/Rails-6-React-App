@@ -7,7 +7,6 @@ class NewItem extends React.Component {
   render() {
     
     var formFields = {}
-    
     return (
       <form onSubmit={ (e) => {
         this.props.createTodo(formFields.name.value, formFields.description.value);

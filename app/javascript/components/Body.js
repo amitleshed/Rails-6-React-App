@@ -26,7 +26,8 @@ class Body extends React.Component {
     this.state = {
       todos: [],
       completedTodos: [],
-      searchText: ''
+      searchText: '',
+      todoDescriptionEditable: false
     }
     
     this.createTodo           = this.createTodo.bind(this)
@@ -39,6 +40,7 @@ class Body extends React.Component {
     this.destroyCompletedTodo = this.destroyCompletedTodo.bind(this)
     this.onSearch             = this.onSearch.bind(this)
     this.todoTitleChange      = this.todoTitleChange.bind(this)
+    this.todoDescriptionEdit  = this.todoDescriptionEdit.bind(this)
   }
   
   componentDidMount() {
@@ -126,7 +128,7 @@ class Body extends React.Component {
   
   createTodo(title, description) {
     let todoParams = JSON.stringify({ todo: {title: title, description: description} })
-    
+
     fetch('/api/v1/todos', {
       method: 'POST',
       headers: {
@@ -164,40 +166,48 @@ class Body extends React.Component {
     this.updateTodo(todo)
   }
   
+  todoDescriptionEdit() {
+    this.setState({ todoDescriptionEditable: !this.state.todoDescriptionEditable })
+  }
+  
   render () {
     return (
-      <React.Fragment>
-      <div>
-        <Switch>
-          <Route path="/todos/:id" children={<Modal todos={this.state.todos} todoTitleChange={this.todoTitleChange} />} />
-        </Switch>
+      <div className="main-content">
+        <div>
+          <Switch>
+            <Route path="/todos/:id" children={<Modal todos={this.state.todos} 
+                                                      todoTitleChange={this.todoTitleChange} 
+                                                      todoDescriptionEdit={this.todoDescriptionEdit} 
+                                                      todoDescriptionEditable={this.state.todoDescriptionEditable}
+                                                      updateTodo={this.updateTodo} />} />
+          </Switch>
   
-        {<Body /> && <Route path="/todos/:id" />}
-      </div>
+          {<Body /> && <Route path="/todos/:id" />}
+        </div>
       
-      <div className="main-action-buttons">
-        <AppPopper label="Create a todo" icon={<AddIcon/>} placement="bottom-start">
-          <NewItem createTodo={this.createTodo}/>
-        </AppPopper>
-        <AppPopper label="Search a todo" icon={<SearchIcon/>} placement="bottom-end">
-          <SearchBar searchText ={this.state.searchText}
-                     onSearch   ={this.onSearch} />
-        </AppPopper>
+        <div className="main-action-buttons">
+          <AppPopper label="Create a todo" icon={<AddIcon/>} placement="bottom-start">
+            <NewItem createTodo={this.createTodo}/>
+          </AppPopper>
+          <AppPopper label="Search a todo" icon={<SearchIcon/>} placement="bottom-end">
+            <SearchBar searchText ={this.state.searchText}
+                       onSearch   ={this.onSearch} />
+          </AppPopper>
+        </div>
+        <div className="container">
+          <Todos todos             ={this.state.todos} 
+                 completedTodos    ={this.state.completedTodos}
+                 destroyTodo       ={this.destroyTodo} 
+                 updateTodo        ={this.updateTodo} 
+                 pinTodo           ={this.pinTodo} 
+                 createCompleteTodo={this.createCompleteTodo}
+                 searchText        ={this.state.searchText}
+          />
+          <CompletedTodos completedTodos      ={this.state.completedTodos}
+                          destroyCompletedTodo={this.destroyCompletedTodo}
+                          searchText          ={this.state.searchText}/> 
+        </div>
       </div>
-      <div className="container">
-        <Todos todos             ={this.state.todos} 
-               completedTodos    ={this.state.completedTodos}
-               destroyTodo       ={this.destroyTodo} 
-               updateTodo        ={this.updateTodo} 
-               pinTodo           ={this.pinTodo} 
-               createCompleteTodo={this.createCompleteTodo}
-               searchText        ={this.state.searchText}
-        />
-        <CompletedTodos completedTodos      ={this.state.completedTodos}
-                        destroyCompletedTodo={this.destroyCompletedTodo}
-                        searchText          ={this.state.searchText}/> 
-      </div>
-      </React.Fragment>
     );
   }
 }

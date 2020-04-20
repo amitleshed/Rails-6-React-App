@@ -4,6 +4,7 @@ class Api::V1::TodosController < ApplicationController
   end
   
   def create
+        puts "PARAMS !!!!!! #{params}"
     @todo = Todo.create(todo_params)
     render json: @todo
   end

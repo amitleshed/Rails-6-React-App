@@ -1,6 +1,7 @@
-import React     from "react"
+import React, { useRef } from "react"
 import PropTypes from "prop-types"
-import Input     from '@material-ui/core/Input';
+import Input     from '@material-ui/core/Input'
+import Notes     from './Notes'
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,8 +11,10 @@ import {
   useLocation,
   useParams
 } from "react-router-dom"
+import OutsideAlerter from './OutsideAlerter'
+import Button from '@material-ui/core/Button'
 
-const Modal = (props) => {
+function Modal(props) {
   let {id} = useParams()
   var todo = props.todos.find(todo => todo.id === parseInt(id))
   let history = useHistory()
@@ -22,8 +25,49 @@ const Modal = (props) => {
     history.goBack()
   }
   
+  const textarea = useRef()
+  
   let handleInput = e => {
     props.todoTitleChange(todo, e.target.value)
+  }
+  
+  let handleEdit = e => {
+    props.todoDescriptionEdit()
+    if (!props.todoDescriptionEditable) {
+      setTimeout(() => {
+        textarea.current.focus()
+        textarea.current.select()
+      }, 10)
+    }
+  }
+  
+  let handleEditSubmit = e => {
+    e.preventDefault()
+    todo.description = textarea.current.value
+    props.updateTodo(todo)
+    handleEdit()
+  }
+  
+  let description = () => {
+    if (props.todoDescriptionEditable) {
+      return(
+        <OutsideAlerter actionOnClickOutside={handleEdit}>
+          <form onSubmit={handleEditSubmit}>
+            <textarea type="text" placeholder="Add a more detailed description..." ref={textarea} defaultValue={todo.description}></textarea>
+            <Button type="submit">Save</Button>
+            <a className="close-button" onClick={handleEdit}>x</a>
+          </form>
+        </OutsideAlerter>
+      )
+    } else {
+      if (todo.description === "") {
+        return <div className="fake-description" onClick={handleEdit}>
+                <span>Add a more detailed description...</span>
+               </div>
+      } else {
+        return <p className="description" onClick={handleEdit}>{todo.description}</p>
+      }
+    }
   }
   
   return (
@@ -32,8 +76,47 @@ const Modal = (props) => {
            onClick={back}>
       </div>
       <div className="modal">
-        <h2>{todo.title}</h2>
-        <Input type="text" onChange={handleInput} placeholder="Edit todo's title"></Input>
+        <div className="modal__main">
+          <div className="section todo__title--modal">
+            <input type="text" onChange={handleInput} placeholder="Name this todo" value={todo.title}/>
+          </div>
+          <div className="section todo__description--modal">
+            <h3>Description</h3>
+            {description()}
+          </div>
+          <div className="section todo__notes--modal">
+            <h3>Notes</h3>
+            <Notes todo={todo} />
+          </div>
+        </div>
+        <div className="modal__panel">
+          <ul className="buttons">
+            <li className="button">
+              Labels
+            </li>
+            <li className="button">
+              Members
+            </li>
+            <li className="button">
+              Lists
+            </li>
+            <li className="button">
+              Due Date
+            </li>
+            <li className="button">
+              Attachments
+            </li>
+            <li className="button">
+              Move
+            </li>
+            <li className="button">
+              Copy
+            </li>
+            <li className="button">
+              Make Template
+            </li>
+          </ul>
+        </div>
       </div>
     </React.Fragment>
   );
