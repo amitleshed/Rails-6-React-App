@@ -174,14 +174,21 @@ class Body extends React.Component {
     return (
       <div className="main-content">
         <div>
-          <Switch>
+          <Switch>                                                
+            <Route path="/todos/completed_todos/:id" children={<Modal todos={this.state.completedTodos} 
+                                                      todoTitleChange={this.todoTitleChange} 
+                                                      todoDescriptionEdit={this.todoDescriptionEdit} 
+                                                      todoDescriptionEditable={this.state.todoDescriptionEditable}
+                                                      updateTodo={this.updateTodo} />} />
+                                                      
             <Route path="/todos/:id" children={<Modal todos={this.state.todos} 
                                                       todoTitleChange={this.todoTitleChange} 
                                                       todoDescriptionEdit={this.todoDescriptionEdit} 
                                                       todoDescriptionEditable={this.state.todoDescriptionEditable}
                                                       updateTodo={this.updateTodo} />} />
           </Switch>
-  
+                                                      
+          {<Body /> && <Route path="/todos/completed_todos/:id" />}
           {<Body /> && <Route path="/todos/:id" />}
         </div>
       

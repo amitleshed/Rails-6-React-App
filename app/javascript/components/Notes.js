@@ -52,7 +52,6 @@ class Notes extends React.Component {
       method: 'DELETE'
     })
     .then((response) => {
-      console.log(response)
       this.getNotes()
     })
   }
