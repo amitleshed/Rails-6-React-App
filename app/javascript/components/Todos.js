@@ -20,7 +20,7 @@ class Todos extends React.Component {
                 destroyTodo={this.props.destroyTodo} 
                 updateTodo={this.props.updateTodo} 
                 pinTodo={this.props.pinTodo} 
-                createCompleteTodo={this.props.createCompleteTodo} 
+                toggleCompleteTodo={this.props.toggleCompleteTodo} 
           />
         </li>
       )

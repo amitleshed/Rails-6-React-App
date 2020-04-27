@@ -88,10 +88,10 @@ class Notes extends React.Component {
           <span className="note__content">
             {note.content}
           </span>
-          <span className="note__created_at">
-            {localDate(note.created_at)}
-          </span>
           <div className="note__actions">
+            <span className="note__created_at">
+              {localDate(note.created_at)}
+            </span>
             <ul className="actions">
               <li className="action">
                 <a onClick={ (e) => {this.destroyNote(note)} }>Delete</a>

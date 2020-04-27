@@ -25,7 +25,7 @@ class CompleteTodo extends React.Component {
         <Link 
           key={this.props.todo.id}
           to={{
-            pathname: `/todos/completed_todos/${this.props.todo.id}`
+            pathname: `/todos/${this.props.todo.id}`
           }}>
           <div className="todo__info">
             <h3>{this.props.todo.title}</h3>
@@ -33,7 +33,7 @@ class CompleteTodo extends React.Component {
           </div>
         </Link>
         <div className="todo__actions">
-          <button onClick={() => this.props.destroyCompletedTodo(this.props.todo.id)}><DeleteOutlineOutlinedIcon /></button>
+          <button onClick={() => this.props.toggleCompleteTodo(this.props.todo)}><DeleteOutlineOutlinedIcon /></button>
         </div>
       </React.Fragment>
     );

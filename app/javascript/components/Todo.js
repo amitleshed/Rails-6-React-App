@@ -69,7 +69,7 @@ class Todo extends React.Component {
           <button onClick={() => this.editTodo()}>{ this.state.editable ? <CheckIcon /> : <EditOutlinedIcon /> }</button>
           <button onClick={() => this.props.destroyTodo(this.props.todo.id)}><DeleteOutlineOutlinedIcon /></button>
           <button onClick={() => this.props.pinTodo(this.props.todo)}>{ this.props.todo.pin ? <BookmarkIcon /> : <BookmarkBorderIcon /> }</button>
-          <button onClick={() => this.props.createCompleteTodo(this.props.todo)}><CheckCircleIcon /></button>
+          <button onClick={() => this.props.toggleCompleteTodo(this.props.todo)}><CheckCircleIcon /></button>
         </div>
       </React.Fragment>
     );

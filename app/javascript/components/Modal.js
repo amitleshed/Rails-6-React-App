@@ -13,6 +13,9 @@ import {
 } from "react-router-dom"
 import OutsideAlerter from './OutsideAlerter'
 import Button from '@material-ui/core/Button'
+import LabelPalette from './LabelPalette'
+import Labels from './Labels'
+import AppPopper from "./AppPopper"
 
 function Modal(props) {
   let {id} = useParams()
@@ -70,8 +73,19 @@ function Modal(props) {
     }
   }
   
+  let doneBadge = todo.completed ? 
+                    <div className="done-badge">
+                      <div>
+                        <span>
+                          COMPLETED
+                        </span>
+                      </div>
+                    </div> :
+                    ''
+  
   return (
     <React.Fragment>
+      {doneBadge}
       <div className="modal-background"
            onClick={back}>
       </div>
@@ -79,6 +93,10 @@ function Modal(props) {
         <div className="modal__main">
           <div className="section todo__title--modal">
             <input type="text" onChange={handleInput} placeholder="Name this todo" value={todo.title}/>
+          </div>
+          <div className="section todo__labels--modal">
+            <h3>Labels</h3>
+              <Labels todo={todo}/>
           </div>
           <div className="section todo__description--modal">
             <h3>Description</h3>
@@ -92,28 +110,12 @@ function Modal(props) {
         <div className="modal__panel">
           <ul className="buttons">
             <li className="button">
-              Labels
-            </li>
-            <li className="button">
-              Members
+              <AppPopper label="labels">
+                <LabelPalette todo={todo}/>
+              </AppPopper>
             </li>
             <li className="button">
               Lists
-            </li>
-            <li className="button">
-              Due Date
-            </li>
-            <li className="button">
-              Attachments
-            </li>
-            <li className="button">
-              Move
-            </li>
-            <li className="button">
-              Copy
-            </li>
-            <li className="button">
-              Make Template
             </li>
           </ul>
         </div>

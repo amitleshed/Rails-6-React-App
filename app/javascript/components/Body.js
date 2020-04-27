@@ -36,8 +36,7 @@ class Body extends React.Component {
     this.updateTodo           = this.updateTodo.bind(this)
     this.updateTodos          = this.updateTodos.bind(this)
     this.pinTodo              = this.pinTodo.bind(this)
-    this.createCompleteTodo   = this.createCompleteTodo.bind(this)
-    this.destroyCompletedTodo = this.destroyCompletedTodo.bind(this)
+    this.toggleCompleteTodo   = this.toggleCompleteTodo.bind(this)
     this.onSearch             = this.onSearch.bind(this)
     this.todoTitleChange      = this.todoTitleChange.bind(this)
     this.todoDescriptionEdit  = this.todoDescriptionEdit.bind(this)
@@ -47,10 +46,6 @@ class Body extends React.Component {
     fetch('/api/v1/todos.json')
     .then((response) => { return response.json() })
     .then((data) => { this.setState({ todos: data }) })
-    
-    fetch('/api/v1/completed_todos.json')
-    .then((response) => { return response.json() })
-    .then((data) => { this.setState({ completedTodos: data }) })
   }
   
   onSearch(searchText) {
@@ -107,18 +102,6 @@ class Body extends React.Component {
     })
   }
   
-  destroyCompletedTodo(id) {
-    fetch(`/api/v1/completed_todos/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then((response) => {
-      this.componentDidMount()
-    })
-  }
-  
   removeTodo(id) {
     let updatedTodos = this.state.todos.filter((todo) => todo.id !== id)
     this.setState({
@@ -142,23 +125,9 @@ class Body extends React.Component {
     })
   }
   
-  createCompleteTodo(todo) {    
-    let completedTodoParams = JSON.stringify({ completed_todo: {todo_id: todo.id, description: todo.description, title: todo.title} })
-
-    fetch('/api/v1/completed_todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: completedTodoParams
-    })
-    .then((response) => { return response.json() })
-    .then((completedTodo) => {
-      this.setState({
-        completedTodos: this.state.completedTodos.concat(completedTodo),
-        todos: this.state.todos.filter((todo) => todo.id !== completedTodo.todo_id)
-      })
-    })
+  toggleCompleteTodo(todo) {    
+    todo.completed = !todo.completed
+    this.updateTodo(todo)
   }
   
   todoTitleChange(todo, input) {
@@ -188,7 +157,6 @@ class Body extends React.Component {
                                                       updateTodo={this.updateTodo} />} />
           </Switch>
                                                       
-          {<Body /> && <Route path="/todos/completed_todos/:id" />}
           {<Body /> && <Route path="/todos/:id" />}
         </div>
       
@@ -202,17 +170,17 @@ class Body extends React.Component {
           </AppPopper>
         </div>
         <div className="container">
-          <Todos todos             ={this.state.todos} 
+          <Todos todos             ={this.state.todos.filter(todo => todo.completed === false)} 
                  completedTodos    ={this.state.completedTodos}
                  destroyTodo       ={this.destroyTodo} 
                  updateTodo        ={this.updateTodo} 
                  pinTodo           ={this.pinTodo} 
-                 createCompleteTodo={this.createCompleteTodo}
+                 toggleCompleteTodo={this.toggleCompleteTodo}
                  searchText        ={this.state.searchText}
           />
-          <CompletedTodos completedTodos      ={this.state.completedTodos}
-                          destroyCompletedTodo={this.destroyCompletedTodo}
-                          searchText          ={this.state.searchText}/> 
+          <CompletedTodos completedTodos    ={this.state.todos.filter(todo => todo.completed === true)}
+                          toggleCompleteTodo={this.toggleCompleteTodo}
+                          searchText        ={this.state.searchText}/> 
         </div>
       </div>
     );

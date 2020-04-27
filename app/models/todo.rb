@@ -1,7 +1,8 @@
 class Todo < ApplicationRecord
-  after_initialize :default_values
+  has_many :labels, dependent: :destroy
+  has_many :notes, dependent: :destroy
   
-  has_many :completed_todos, dependent: :destroy
+  after_initialize :default_values
   
   def default_values
     self.pin       ||= false

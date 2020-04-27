@@ -1,10 +1,9 @@
 class Api::V1::TodosController < ApplicationController
   def index
-    render json: Todo.where(completed: false).reverse
+    render json: Todo.all.reverse
   end
   
   def create
-        puts "PARAMS !!!!!! #{params}"
     @todo = Todo.create(todo_params)
     render json: @todo
   end
@@ -29,6 +28,6 @@ class Api::V1::TodosController < ApplicationController
   private
   
   def todo_params
-    params.require(:todo).permit(:id, :title, :description, :pin)
+    params.require(:todo).permit(:id, :title, :description, :pin, :completed)
   end
 end

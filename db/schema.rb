@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_121724) do
+ActiveRecord::Schema.define(version: 2020_04_26_060500) do
 
-  create_table "completed_todos", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
+  create_table "labels", force: :cascade do |t|
+    t.integer "color"
     t.integer "todo_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["todo_id"], name: "index_completed_todos_on_todo_id"
+    t.index ["todo_id"], name: "index_labels_on_todo_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -38,5 +37,5 @@ ActiveRecord::Schema.define(version: 2020_04_12_121724) do
     t.boolean "completed"
   end
 
-  add_foreign_key "completed_todos", "todos"
+  add_foreign_key "labels", "todos"
 end
