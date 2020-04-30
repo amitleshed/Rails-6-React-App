@@ -96,7 +96,7 @@ function Modal(props) {
           </div>
           <div className="section todo__labels--modal">
             <h3>Labels</h3>
-              <Labels todo={todo}/>
+              <Labels todo={todo} getLabels={props.getLabels} labels={props.labels}/>
           </div>
           <div className="section todo__description--modal">
             <h3>Description</h3>
@@ -111,7 +111,7 @@ function Modal(props) {
           <ul className="buttons">
             <li className="button">
               <AppPopper label="labels">
-                <LabelPalette todo={todo}/>
+                <LabelPalette todo={todo} createLabel={props.createLabel}/>
               </AppPopper>
             </li>
             <li className="button">

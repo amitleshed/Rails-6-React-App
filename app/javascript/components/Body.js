@@ -27,7 +27,8 @@ class Body extends React.Component {
       todos: [],
       completedTodos: [],
       searchText: '',
-      todoDescriptionEditable: false
+      todoDescriptionEditable: false,
+	  labels: []
     }
     
     this.createTodo           = this.createTodo.bind(this)
@@ -40,12 +41,31 @@ class Body extends React.Component {
     this.onSearch             = this.onSearch.bind(this)
     this.todoTitleChange      = this.todoTitleChange.bind(this)
     this.todoDescriptionEdit  = this.todoDescriptionEdit.bind(this)
+	this.createLabel		  = this.createLabel.bind(this)
+	this.getLabels 			  = this.getLabels.bind(this)
   }
   
   componentDidMount() {
     fetch('/api/v1/todos.json')
     .then((response) => { return response.json() })
     .then((data) => { this.setState({ todos: data }) })
+  }
+  
+  createLabel(params) {
+    fetch(`/api/v1/todos/${params.label.todo_id}/labels`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    })
+	.then((response) => { this.getLabels(params.label.todo_id )})
+  }
+  
+  getLabels(todo_id) {
+    fetch(`/api/v1/todos/${todo_id}/labels.json`)
+    .then((response) => { return response.json() })
+    .then((data) => { this.setState({ labels: data }) })
   }
   
   onSearch(searchText) {
@@ -154,7 +174,10 @@ class Body extends React.Component {
                                                       todoTitleChange={this.todoTitleChange} 
                                                       todoDescriptionEdit={this.todoDescriptionEdit} 
                                                       todoDescriptionEditable={this.state.todoDescriptionEditable}
-                                                      updateTodo={this.updateTodo} />} />
+                                                      updateTodo={this.updateTodo}
+													  createLabel={this.createLabel}
+													  getLabels={this.getLabels}
+													  labels={this.state.labels} />} />
           </Switch>
                                                       
           {<Body /> && <Route path="/todos/:id" />}

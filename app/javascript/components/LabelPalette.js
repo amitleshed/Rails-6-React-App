@@ -5,9 +5,6 @@ import AppPopper from "./AppPopper"
 class LabelPalette extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      labels: []
-    }
     
     this.handleCreation = this.handleCreation.bind(this)
   }
@@ -15,19 +12,9 @@ class LabelPalette extends React.Component {
   componentDidMount() {
   }
   
-  createLabel(params) {
-    fetch(`/api/v1/todos/${this.props.todo.id}/labels`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: params
-    })
-  }
-  
   handleCreation(color) {
-    let params = JSON.stringify({ label: { color: color, todo_id: this.props.todo.id } })
-    this.createLabel(params)
+	  let params = { label: { color: color, todo_id: this.props.todo.id } }
+    this.props.createLabel(params)
   }
   
   render () {

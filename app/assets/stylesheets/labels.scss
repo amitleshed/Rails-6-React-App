@@ -1,3 +1,10 @@
+$green: #21bf73;
+$yellow: #ffe75e;
+$orange: #feb72b;
+$red: #ff5d6c;
+$purple: #862a5c;
+$blue: #0779e4;
+
 .labels {
   padding: 0;
   margin: 0;
@@ -12,27 +19,65 @@
     width: 3em;
     
     &--green {
-      background: green;
+      background: $green;
     }
     
     &--yellow {
-      background: yellow;
+      background: $yellow;
     }
     
     &--orange {
-      background: orange;
+      background: $orange;
     }
     
     &--red {
-      background: red;
+      background: $red;
     }
     
     &--purple {
-      background: purple;
+      background: $purple;
     }
     
     &--blue {
-      background: blue;
+      background: $blue;
     }
   }
+}
+
+.active-labels {
+	padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	
+    .label {
+      margin: 0 3px;
+      list-style: none;
+      height: 2em;
+      width: 3em;
+    
+      &--green {
+        background: $green;
+      }
+    
+      &--yellow {
+        background: $yellow;
+      }
+    
+      &--orange {
+        background: $orange;
+      }
+    
+      &--red {
+        background: $red;
+      }
+    
+      &--purple {
+        background: $purple;
+      }
+    
+      &--blue {
+        background: $blue;
+      }
+    }
 }

@@ -4,30 +4,16 @@ import PropTypes from "prop-types"
 class Labels extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      labels: [],
-    }
-    
-    this.getLabels = this.getLabels.bind(this)
   }
   
   componentDidMount() {
-    this.getLabels()
-  }
-  
-  getLabels() {
-    fetch(`/api/v1/todos/${this.props.todo.id}/labels.json`)
-    .then((response) => { return response.json() })
-    .then((data) => { this.setState({ labels: data }) })
+	  this.props.getLabels(this.props.todo.id)
   }
   
   render () {
-    let activeLabels = this.state.labels.map((label) => {
+    let activeLabels = this.props.labels.map((label) => {
       return (
-        <li className="label label--active">
-          <span>
-            {label.color}
-          </span>
+        <li className={"label label--active label--" + label.color}>
         </li>
       )
     })
