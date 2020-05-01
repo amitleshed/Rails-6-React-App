@@ -95,11 +95,10 @@ function Modal(props) {
             <input type="text" onChange={handleInput} placeholder="Name this todo" value={todo.title}/>
           </div>
           <div className="section todo__labels--modal">
-            <h3>Labels</h3>
-              <Labels todo={todo} getLabels={props.getLabels} labels={props.labels}/>
+          	<Labels todo={todo} getLabels={props.getLabels} labels={props.labels}/>
           </div>
           <div className="section todo__description--modal">
-            <h3>Description</h3>
+          	<h3>Description</h3>
             {description()}
           </div>
           <div className="section todo__notes--modal">
@@ -110,12 +109,9 @@ function Modal(props) {
         <div className="modal__panel">
           <ul className="buttons">
             <li className="button">
-              <AppPopper label="labels">
-                <LabelPalette todo={todo} createLabel={props.createLabel}/>
+              <AppPopper label="labels" placement="bottom-start">
+                <LabelPalette todo={todo} createLabel={props.createLabel} />
               </AppPopper>
-            </li>
-            <li className="button">
-              Lists
             </li>
           </ul>
         </div>

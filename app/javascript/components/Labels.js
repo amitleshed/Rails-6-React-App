@@ -20,6 +20,7 @@ class Labels extends React.Component {
     
     return (
       <React.Fragment>
+		{this.props.labels.length == 0 ? '' : <h3>Labels</h3>}
         <ul className="active-labels">
           {activeLabels}
         </ul>
